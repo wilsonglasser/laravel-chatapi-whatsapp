@@ -16,7 +16,7 @@ class CouldNotSendNotification extends \Exception
     public static function serviceRespondedWithAnError(ClientException $exception)
     {
         $statusCode  = $exception->getResponse()->getStatusCode();
-        $description = 'no description given';
+        $description = $exception->getMessage();
 
         if ($result = json_decode($exception->getResponse()->getBody())) {
             $description = $result->description ?: $description;

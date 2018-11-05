@@ -18,9 +18,9 @@ class ChatAPI
     /**
      * @param null $token
      */
-    public function __construct($api_url = null, $token = null)
+    public function __construct($token = null, $api_url = null)
     {
-        $this->api_url        = $api_url;
+        $this->api_url      = $api_url;
         $this->token        = $token;
     }
 
@@ -32,7 +32,7 @@ class ChatAPI
     protected function httpClient()
     {
         return new HttpClient([
-            'base_uri' => $this->api_url,
+            //'base_uri' => $this->api_url,
             'headers' => [
                 'Content-Type'  => 'application/json',
                 'Accept'        => 'application/json'
@@ -41,7 +41,7 @@ class ChatAPI
     }
 
     private function uriWithToken($uri) {
-        return $uri.'?token='.$this->token;
+        return rtrim($this->api_url,'/').$uri.'?token='.$this->token;
     }
 
 
@@ -68,7 +68,7 @@ class ChatAPI
                 'groupName' => $groupName
             ];
 
-            $res = $this->httpClient()->post($this->uriWithToken('/group'), $data);
+            $res = $this->httpClient()->post($this->uriWithToken('/group'), ['json' => $data]);
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $exception) {
@@ -99,8 +99,9 @@ class ChatAPI
             else
                 $data['chatId'] = $phone;
 
-            $res = $this->httpClient()->post($this->uriWithToken('/sendMessage'), $data);
+            $res = $this->httpClient()->post($this->uriWithToken('/sendMessage'), ['json' => $data]);
 
+           
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $exception) {
             throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
@@ -161,7 +162,7 @@ class ChatAPI
             else
                 $data['chatId'] = $phone;
 
-            $res = $this->httpClient()->post($this->uriWithToken('/sendMessage'), $data);
+            $res = $this->httpClient()->post($this->uriWithToken('/sendFile'), ['json' => $data]);
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $exception) {
@@ -180,7 +181,7 @@ class ChatAPI
     {
         try {
             $data = [
-                //body, filename
+                'token' => $this->token
             ];
 
             if ($byQuantity > 0) {
@@ -189,7 +190,7 @@ class ChatAPI
                 $data['lastMessageNumber'] = $byLastMessageNumber;
             }
 
-            $res = $this->httpClient()->get($this->uriWithToken('/messages'), $data);
+            $res = $this->httpClient()->get($this->api_url.'/messages?'.http_build_query($data));
 
             return json_decode($res->getBody()->getContents(), true);
 
@@ -216,7 +217,7 @@ class ChatAPI
                 'set' => $set,
                 'webhookUrl' => $webhook_url
             ];
-            $res = $this->httpClient()->post($this->uriWithToken('/webhook'), $data);
+            $res = $this->httpClient()->post($this->uriWithToken('/webhook'), ['json' => $data]);
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $exception) {
@@ -258,7 +259,7 @@ class ChatAPI
             $data = [
                 'ackNotificationsOn' => $ackNotificationsOn ? 1 : 0
             ];
-            $res = $this->httpClient()->post($this->uriWithToken('/settings/ackNotificationsOn'), $data);
+            $res = $this->httpClient()->post($this->uriWithToken('/settings/ackNotificationsOn'), ['json' => $data]);
 
             return json_decode($res->getBody()->getContents(), true);
         } catch (ClientException $exception) {
