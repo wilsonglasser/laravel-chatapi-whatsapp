@@ -1,5 +1,11 @@
-Laravel client and channel for  WhatsApp API (by Chat API):
-https://chat-api.com/
+# Laravel client and channel for  WhatsApp API (by Chat API)
+
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/wilsonglasser/laravel-chatapi-whatsapp.svg?style=flat-square&r=1)](https://packagist.org/packages/wilsonglasser/laravel-chatapi-whatsapp)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Total Downloads](https://poser.pugx.org/wilsonglasser/laravel-chatapi-whatsapp/downloads.png)](https://packagist.org/packages/wilsonglasser/laravel-chatapi-whatsapp)
+
+This package makes it easy to send WhatsApp messages using [Chat API](https://chat-api.com/) with Laravel 5.
 
 ## Contents
 
