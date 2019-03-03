@@ -62,7 +62,7 @@ class InvoicePaid extends Notification
         return [ChatAPIChannel::class];
     }
 
-    public function toZenvia($notifiable)
+    public function toChatAPI($notifiable)
     {
         return ChatAPIMessage::create()
             ->to($notifiable->phone) // your user phone
