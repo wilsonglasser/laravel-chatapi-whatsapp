@@ -66,7 +66,7 @@ class InvoicePaid extends Notification
     {
         return ChatAPIMessage::create()
             ->to($notifiable->phone) // your user phone
-            ->file('/path/to/file','My Photo.jpg');
+            ->file('/path/to/file','My Photo.jpg')
             ->content('Your invoice has been paid');
     }
 }
